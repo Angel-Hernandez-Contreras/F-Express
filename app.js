@@ -1,12 +1,19 @@
 var express = require('express');
+const port = 3002;
+const bodyParser = require('body-parse');
+const routes = require('./routes/routes');
 var app = express();
 
-app.get ('/', function(req,res){
-    res.send('hola mundo');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+	extended: true,
 
-});
+}));
 
-app.listen(3000, function(){
-    console.log('Aplicacion ejemplo, escuchando el puerto 3000');
-    
+routes(app);
+
+const server = app.listen(port, (error) => {
+    if (error) return console.log(`Error: ${error}`);
+
+    console.log(`El servidor escucha en el puerto ${server.address().port}`);
 });
